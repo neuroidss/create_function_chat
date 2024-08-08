@@ -1,5 +1,11 @@
 # create_function_chat
 
+http-server
+>> test
+>> test
+
+![test test'](https://github.com/neuroidss/create_function_chat/blob/main/Screenshot%20from%202024-08-08%2016-19-35.png)
+
 node create_function_chat.js "call Create function described as Search for articles on arxiv by default 2 maximum results start from 0" "call Create function described as Send a message using the Telegram Bot API, using token and chat_id." 'call Create function with description "Via telegram web api read last message id, using token and chat_id"' 'call Create function with description "Via telegram web api read messages every second until message id will be different that provided as parameter, using token and chat_id, return json string"' 'send telegram bot message "which science articles to search?" via web api, token=<YOUR_TOKEN>, chat_id=<YOUR_CHAT_ID>' 'read last message id via telegram web api' 'then use that last message id to get new message' 'search 2 articles on arxiv about what user sent in last message' 'send telegram bot message about these 2 last articles via web api'
 
 ![search 2 articles on arxiv as request to telegram bot'](https://github.com/neuroidss/create_function_chat/blob/main/Screenshot%20from%202024-08-07%2023-27-15.png)
