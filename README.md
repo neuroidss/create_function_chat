@@ -1,8 +1,8 @@
 # create_function_chat
 
 http-server
->> test
->> test
+test
+test
 
 ![test test'](https://github.com/neuroidss/create_function_chat/blob/main/Screenshot%20from%202024-08-08%2016-19-35.png)
 
