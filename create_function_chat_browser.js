@@ -30,6 +30,14 @@ let tools_global=[
                 'type': 'string',
                 'description': 'Function description',
               },
+              'temperature': {
+                'type': 'float',
+                'description': 'Function temperature',
+              },
+              'seed': {
+                'type': 'int',
+                'description': 'Function seed',
+              },
             },
             'required': ['name', 'description'],
           },
@@ -39,6 +47,16 @@ let tools_global=[
 
 let created_functions_global=[];
 
+//let temperature_global = 1.0;
+//let temperature_global = 0.9;
+//let temperature_global = 0.8;
+//let temperature_global = 0.7;
+//let temperature_global = 0.6;
+//let temperature_global = 0.5;
+//let temperature_global = 0.4;
+//let temperature_global = 0.3;
+//let temperature_global = 0.2;
+//let temperature_global = 0.1;
 let temperature_global = 0.0;
 let seed_global = 0;
 let stream_global = false;
@@ -64,6 +82,15 @@ async function create_function(data) {
 //  console.log('data: ', data);
   let name = data['name'];
   let description = data['description'];
+  let temperature = temperature_global;
+//  console.log('data: ', data);
+  if (data.hasOwnProperty('temperature')) {
+    temperature = data['temperature'];
+  }
+  let seed = seed_global;
+  if (data.hasOwnProperty('seed')) {
+    seed = data['seed'];
+  }
   let messages = [];
   if(chat && chat_in_create_function){
     messages = messages_global;
@@ -96,7 +123,7 @@ async function create_function(data) {
 //  messages.push({'role': 'user', 'content': 'Write javascript async function '+name+' which makes "'+description+'" and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
   
   // First API call: Send the query and function description to the model
-  let options = {'temperature': temperature_global, 'seed': seed_global, 'num_ctx': num_ctx_global};
+  let options = {'temperature': temperature, 'seed': seed, 'num_ctx': num_ctx_global};
   let response = await ollama.chat({
     model:model,
     messages:messages,
@@ -168,6 +195,7 @@ async function create_function(data) {
       }
       created_function = created_function_cut.join('\n');
       
+        eval.call(null, created_function);
 //      eval(created_function);
       tools_global.push(
        {
@@ -225,7 +253,7 @@ async function run(model, message){
       let function_response = await eval(tool['function']['name'])(data);
       if(tool['function']['name'] == 'create_function'){
 //        eval(function_response);
-        eval.call(null,function_response);
+//        eval.call(null,function_response);
       }
       if(debug){
         console.log("function_response: ", function_response);
@@ -271,6 +299,7 @@ window.onload = function () {
   div_input.appendChild(input);
   div_output.appendChild(output);
   container.appendChild(div_input);
+  input.focus();
   container.appendChild(div_output);
 //  input.setAttribute('type', 'MainButton');
   input.addEventListener("keyup", function(event) {
@@ -282,6 +311,7 @@ window.onload = function () {
 //          break;
       } else if((message.length) > 0){
           run('mistral-nemo:12b-instruct-2407-q6_K', message).then(output_value => {
+//          run('llama3.1:8b-instruct-q8_0', message).then(output_value => {
               output.value = JSON.stringify(output_value, null, 1);
 //              console.log(result);
           });
