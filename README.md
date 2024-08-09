@@ -1,5 +1,7 @@
 # create_function_chat
 
+http-server
+
 call create function with seed 2, temperature 0.2, description 'in existing div element with id output, create implementation of game snake'
 
 call game snake
