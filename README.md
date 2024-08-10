@@ -1,8 +1,8 @@
 # create_function_chat
 
-![http://127.0.0.1:8080/?query=call create function with seed 2, temperature 0.2, description 'in existing div element with id output, create implementation of game snake'&query=call game snake]
+[http://127.0.0.1:8080/?query=call create function with seed 2, temperature 0.2, description 'in existing div element with id output, create implementation of game snake'&query=call game snake](http://127.0.0.1:8080/?query=call create function with seed 2, temperature 0.2, description 'in existing div element with id output, create implementation of game snake'&query=call game snake)
 
-![game snake'](https://github.com/neuroidss/create_function_chat/blob/main/Screencast%20from%2008-10-2024%2011:34:49%20AM.gif)
+![game snake](https://github.com/neuroidss/create_function_chat/blob/main/Screencast%20from%2008-10-2024%2011:34:49%20AM.gif)
 
 
 node create_function_chat.js "call Create function described as Search for articles on arxiv by default 2 maximum results start from 0" "call Create function described as Send a message using the Telegram Bot API, using token and chat_id." 'call Create function with description "Via telegram web api read last message id, using token and chat_id"' 'call Create function with description "Via telegram web api read messages every second until message id will be different that provided as parameter, using token and chat_id, return json string"' 'send telegram bot message "which science articles to search?" via web api, token=<YOUR_TOKEN>, chat_id=<YOUR_CHAT_ID>' 'read last message id via telegram web api' 'then use that last message id to get new message' 'search 2 articles on arxiv about what user sent in last message' 'send telegram bot message about these 2 last articles via web api'
