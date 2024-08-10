@@ -1,6 +1,6 @@
 # create_function_chat
 
-http\://127.0.0.1:8080/?query=call create function with seed 2, temperature 0.2, description 'in existing div element with id output, create implementation of game snake'&query=call game snake
+[http://127.0.0.1:8080/?query=call create function with seed 2, temperature 0.2, description 'in existing div element with id output, create implementation of game snake'&query=call game snake]
 
 ![game snake'](https://github.com/neuroidss/create_function_chat/blob/main/Screencast%20from%2008-10-2024%2011:34:49%20AM.gif)
 
