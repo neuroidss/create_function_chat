@@ -277,6 +277,39 @@ async function run(model, message){
 }  
 
 window.onload = function () {
+
+  //TODO: encodeURIComponent()
+  const searchParams = new URLSearchParams(window.location.search);
+
+//  if(searchParams.has('query')){
+    //console.log(searchParams.get('query'));
+//  }
+
+//  for (const param of searchParams) {
+//    console.log(param);
+//  }
+
+  let param_values = [];
+  for (const param_value of searchParams.values()) {
+    param_values.push(param_value);
+  }
+  function param_values_iterate() {
+      let param_value = param_values.shift();
+      if((param_value.length) > 0){
+          console.log(">>>", param_value);
+//          console.log("waiting result");
+          run('mistral-nemo:12b-instruct-2407-q6_K', param_value).then(output_value => {
+              output.value = JSON.stringify(output_value, null, 1);
+              if(param_values.length>0){
+                  param_values_iterate();
+              }
+          });
+      }
+  }
+  if(param_values.length>0){
+      param_values_iterate();
+  }
+
   var div_input = document.createElement("div");
   var input = document.createElement("input");
 //  input.setAttribute('type', 'text');
@@ -295,7 +328,7 @@ window.onload = function () {
 //})();
 
   var container = document.getElementById("container");
-  console.log("container: ", container);
+//  console.log("container: ", container);
   div_input.appendChild(input);
   div_output.appendChild(output);
   container.appendChild(div_input);
