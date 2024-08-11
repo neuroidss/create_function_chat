@@ -1,4 +1,4 @@
-# create_function_chat
+# create_function_chat_browser.js
 
 [http://127.0.0.1:8080/?query=call create function with seed 2, temperature 0.2, description 'in existing div element with id output, create implementation of game snake'&query=call game snake](http://127.0.0.1:8080/?query0=call%20create%20function%20with%20seed%202,%20temperature%200.2,%20description%20%27in%20existing%20div%20element%20with%20id%20output,%20create%20implementation%20of%20game%20snake%27&query0=call%20game%20snake)
 
