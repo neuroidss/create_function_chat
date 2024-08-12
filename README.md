@@ -5,6 +5,7 @@ python create_function_chat.py "call Create function with description 'import ol
 python create_function_chat.py "call Create function with description 'Starts a http.server from the specified directory, Access-Control-Allow-Origin: *'" "start http server from / 8080"
 
 ![play snake game](https://github.com/neuroidss/create_function_chat/blob/main/Screenshot%20from%202024-08-12%2010-42-29.png)
+![play snake game](https://github.com/neuroidss/create_function_chat/blob/main/Screencast%20from%2008-12-2024%2012:08:58%20PM.gif)
 
 -----
 
