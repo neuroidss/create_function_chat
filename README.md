@@ -1,6 +1,8 @@
 # create_function_chat
 
-python create_function_chat.py "call Create function with description 'import ollama; client=ollama.Client(); client.chat(model=model, messages=messages,); return response as json string'" "call Create function with description 'create new directory provided as parameter and in this directory overwrite new index.html file with content provided as parameter'" \ "call ollama chat model='mistral-nemo:12b-instruct-2407-q6_K', 'Create Snake game in HTML, CSS, JS, in single file.'" "call write new index.html file with content from html block of llm response in new directory './Snake" "call Create function with description 'Starts a http.server from the specified directory, Access-Control-Allow-Origin: *'" "start http server from / 8080"
+python create_function_chat.py "call Create function with description 'import ollama; client=ollama.Client(); client.chat(model=model, messages=messages,); return response as json string'" "call Create function with description 'create new directory provided as parameter and in this directory overwrite new index.html file with content provided as parameter'" \ "call ollama chat model='mistral-nemo:12b-instruct-2407-q6_K', 'Create Snake game in HTML, CSS, JS, in single file.'" "call write new index.html file with content from html block of llm response in new directory './Snake"
+
+python create_function_chat.py "call Create function with description 'Starts a http.server from the specified directory, Access-Control-Allow-Origin: *'" "start http server from / 8080"
 
 ![play snake game](https://github.com/neuroidss/create_function_chat/blob/main/Screenshot%20from%202024-08-12%2010-42-29.png)
 
