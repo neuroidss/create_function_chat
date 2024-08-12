@@ -1,7 +1,13 @@
+//import {  Ollama } from 'https://esm.run/ollama';
+//const ollama = new Ollama();
+
+//import ollama from 'ollama/browser'
 import { Ollama } from 'ollama'
+const ollama = new Ollama();
 //const { default: ollama } = require('ollama'); 
 
-const ollama = new Ollama({ host: 'http://127.0.0.1:11434' })
+//const ollama = new Ollama({ host: 'http://127.0.0.1:11434' })
+
 
 let tools_global=[
       {
@@ -35,8 +41,8 @@ let stream_global = false;
 
 let model_global = "";
 
-//let debug = true;
-let debug = false;
+let debug = true;
+//let debug = false;
 
 //num_ctx_global = 2048;
 //num_ctx_global = 4096;
@@ -80,7 +86,8 @@ async function create_function(data) {
           },
       };
 
-  messages.push({'role': 'user', 'content': 'Write javascript async function '+name+' which makes "'+description+'", not use "require", gets parameters as named array and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
+  messages.push({'role': 'user', 'content': 'Write javascript async function '+name+' which makes "'+description+'", gets parameters as named array and returns string type, \n then after end of javascript format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
+//  messages.push({'role': 'user', 'content': 'Write javascript async function '+name+' which makes "'+description+'", not use "require", gets parameters as named array and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
 //  messages.push({'role': 'user', 'content': 'Write javascript, not typescript, async function '+name+' which makes "'+description+'", dets parameters as named array and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
 //  messages.push({'role': 'user', 'content': 'Write javascript async function '+name+' which makes "'+description+'" and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
   

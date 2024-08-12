@@ -117,7 +117,7 @@ async function create_function(data) {
           },
       };
 
-  messages.push({'role': 'user', 'content': 'Write javascript async function '+name+' which makes "'+description+'", gets parameters as named array and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
+  messages.push({'role': 'user', 'content': 'Write javascript async function '+name+' which makes "'+description+'", gets parameters as named array and returns string type, \n then after end of javascript format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
 //  messages.push({'role': 'user', 'content': 'Write javascript async function '+name+' which makes "'+description+'", not use "require", gets parameters as named array and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
 //  messages.push({'role': 'user', 'content': 'Write javascript, not typescript, async function '+name+' which makes "'+description+'", dets parameters as named array and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
 //  messages.push({'role': 'user', 'content': 'Write javascript async function '+name+' which makes "'+description+'" and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+JSON.stringify(_function)+'"'});
@@ -299,7 +299,10 @@ window.onload = function () {
           console.log(">>>", param_value);
 //          console.log("waiting result");
           run('mistral-nemo:12b-instruct-2407-q6_K', param_value).then(output_value => {
-              output.value = JSON.stringify(output_value, null, 1);
+              if(debug){
+                  console.log(JSON.stringify(output_value, null, 1));
+              }
+//              output.value = JSON.stringify(output_value, null, 1);
               if(param_values.length>0){
                   param_values_iterate();
               }
@@ -309,7 +312,7 @@ window.onload = function () {
   if(param_values.length>0){
       param_values_iterate();
   }
-
+ if(1){
   var div_input = document.createElement("div");
   var input = document.createElement("input");
 //  input.setAttribute('type', 'text');
@@ -352,7 +355,7 @@ window.onload = function () {
 //        console.log(event.target.value);
     }
   });
-
+ };
 //  var main_btn = document.createElement("button");
 //  main_btn.setAttribute('type', 'MainButton');
 //  main_btn.setAttribute('id', 'main_btn');
