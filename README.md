@@ -1,3 +1,5 @@
+# create_function_chat
+
 ![play snake game](https://github.com/neuroidss/create_function_chat/blob/main/Screenshot%20from%202024-08-12%2010-42-29.png)
 
 python create_function_chat.py "call Create function described as Search for articles on arxiv" "call Create function described as Send a message using the Telegram Bot API." 'call Create function with description "Via telegram web api read last message id, using token and chat_id, do not use telegram library"' 'call Create function with description "Via telegram web api read messages every second until message id will be different that provided as parameter, using token and chat_id, do not use telegram library, return json string"' 'send telegram bot message "which science articles to search?" via web api, token=<YOUR_TOKEN>, chat_id=<YOUR_CHAT_ID>' 'read last message id' 'then use that last message id to get new message' 'search 2 articles on arxiv about what user sent in last message' 'send telegram bot message Summary about these 2 last articles via web api'
