@@ -1,6 +1,6 @@
 import json
 import ollama
-#import asyncio
+import asyncio
 
 tools_global=[
       {
@@ -49,8 +49,8 @@ chat_in_create_function = False
 # Simulates an API call to get flight times
 # In a real application, this would fetch data from a live database or API
 #async def create_function(name: str, description: str) -> str:
-#async def create_function(**data) -> str:
-def create_function(**data) -> str:
+async def create_function(**data) -> str:
+#def create_function(**data) -> str:
   name = data['name']
   description = data['description']
   global client_global
@@ -82,7 +82,9 @@ def create_function(**data) -> str:
           },
       },
 
-  messages.append({'role': 'user', 'content': 'Write python function '+name+' which makes "'+description+'" and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+json.dumps(function)+'"'})
+#  messages.append({'role': 'user', 'content': 'Write python function '+name+' which makes "'+description+'" and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+json.dumps(function)+'"'})
+
+  messages.append({'role': 'user', 'content': 'Write python async function '+name+' which makes "'+description+'" and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+json.dumps(function)+'"'})
   
   # First API call: Send the query and function description to the model
   global tools_global
@@ -91,8 +93,8 @@ def create_function(**data) -> str:
   global seed_global
   global num_ctx_global
   options = {'temperature': temperature_global, 'seed': seed_global, 'num_ctx': num_ctx_global}
-#  response = await client.chat(
-  response = client.chat(
+  response = await client.chat(
+#  response = client.chat(
     model=model,
 #    messages=messages_global,
     messages=messages,
@@ -154,7 +156,9 @@ def create_function(**data) -> str:
               created_function_cut.append(created_function_split)
           elif len(created_function_split) == 0:
               created_function_cut.append(created_function_split)
-          elif created_function_split[0:4] == 'def ':
+#          elif created_function_split[0:4] == 'def ':
+#              created_function_cut.append(created_function_split)
+          elif created_function_split[0:10] == 'async def ':
               created_function_def_started = True
               created_function_cut.append(created_function_split)
           elif (created_function_split[0:1] == ' ') and created_function_def_started:
@@ -177,8 +181,8 @@ def create_function(**data) -> str:
   return created_function
 
 
-#async def run(model: str, message: str):
-def run(model: str, message: str):
+async def run(model: str, message: str):
+#def run(model: str, message: str):
   global client_global
   global model_global
   global messages_global
@@ -186,8 +190,8 @@ def run(model: str, message: str):
   if chat:
     messages = messages_global
   model_global = model
-#  client = ollama.AsyncClient()
-  client = ollama.Client()
+  client = ollama.AsyncClient()
+#  client = ollama.Client()
   client_global = client
   # Initialize conversation with a user query
 #  messages = [{'role': 'user', 'content': message}]
@@ -202,8 +206,8 @@ def run(model: str, message: str):
   global seed_global
   global num_ctx_global
   options = {'temperature': temperature_global, 'seed': seed_global, 'num_ctx': num_ctx_global}
-#  response = await client.chat(
-  response = client.chat(
+  response = await client.chat(
+#  response = client.chat(
     model=model,
 #    messages=messages_global,
     messages=messages,
@@ -233,8 +237,8 @@ def run(model: str, message: str):
 #        print("type(tool['function']['arguments']): ", type(tool['function']['arguments']))
         print("tool['function']['arguments']: ", tool['function']['arguments'])
       data = tool['function']['arguments']
-#      function_response = await globals()[tool['function']['name']](**data)
-      function_response = globals()[tool['function']['name']](**data)
+      function_response = await globals()[tool['function']['name']](**data)
+#      function_response = globals()[tool['function']['name']](**data)
       if debug:
         print("function_response: ", function_response)
 #      function_response = await globals()[tool['function']['name']](**tool['function']['arguments']['name'])
@@ -249,10 +253,10 @@ def run(model: str, message: str):
 #  if tool['function']['name'] == 'add_two_numbers':
 #    await add_two_numbers(**data)
   # Second API call: Get final response from the model
-#  final_response = await client.chat(model=model, messages=messages)
 #  final_response = await client.chat(model=model, messages=messages_global)
 #  final_response = client.chat(model=model, messages=messages_global)
-  final_response = client.chat(model=model, messages=messages)
+  final_response = await client.chat(model=model, messages=messages)
+#  final_response = client.chat(model=model, messages=messages)
   print(final_response['message']['content'])
   if chat:
     messages_global = messages_global + messages
@@ -264,20 +268,24 @@ def run(model: str, message: str):
 #asyncio.run(run('llama3.1'))
 
 import sys
+import aioconsole
 if debug:
   print ('argument list:', sys.argv)
 #for argument_message in sys.argv[1:]:
 #    print(">>> ", argument_message)
 #    asyncio.run(run('mistral-nemo', argument_message))
 
-argument_count = 1
-while True:
+
+async def main():
+  argument_count = 1
+  while True:
     if argument_count < len(sys.argv):
         message = sys.argv[argument_count]
         print(">>>", message)
         argument_count = argument_count + 1
     else:
-        message = input(">>> ")
+#        message = input(">>> ")
+        message = await aioconsole.ainput(">>> ")        
 
     if message == "/exit":
         break
@@ -286,10 +294,12 @@ while True:
 #        asyncio.run(run('llama3.1:8b-instruct-q8_0', message))
 #        asyncio.run(run('mistral-nemo', message))
 #        asyncio.run(run('mistral-nemo:12b-instruct-2407-q6_K', message))
-        run('mistral-nemo:12b-instruct-2407-q6_K', message)
+        await run('mistral-nemo:12b-instruct-2407-q6_K', message)
+#        run('mistral-nemo:12b-instruct-2407-q6_K', message)
 #        run('mistral-nemo', message)
 #        run('llama3.1', message)
 #        run('llama3.1:8b-instruct-q8_0', message)
 #        run('mistral', message)
 #        run('llama3-groq-tool-use', message)
 
+asyncio.run(main())
