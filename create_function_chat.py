@@ -36,8 +36,8 @@ use_cache_global = False
 temperature_global = 0.0
 seed_global = 0
 
-debug = True
-#debug = False
+#debug = True
+debug = False
 
 #num_ctx_global = 2048
 #num_ctx_global = 4096
