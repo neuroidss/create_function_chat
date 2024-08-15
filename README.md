@@ -1,5 +1,9 @@
 # create_function_chat
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neuroidss/create_function_chat/blob/main/create_function_chat.ipynb)]
+
+-----
+
 python create_function_chat.py "call Create function with description 'import ollama; client=ollama.Client(); client.chat(model=model, messages=messages,); return response as json string'" "call Create function with description 'create new directory provided as parameter and in this directory overwrite new index.html file with content provided as parameter'" "call ollama chat model='mistral-nemo:12b-instruct-2407-q6_K', 'Create Snake game in HTML, CSS, JS, in single file.'" "call write new index.html file with content from html block of llm response in new directory './Snake'"
 
 python create_function_chat.py "call Create function with description 'Starts a http.server from the specified directory and port, Access-Control-Allow-Origin: *'" "start http server from ./ 8080"
