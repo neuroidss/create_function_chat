@@ -33,7 +33,7 @@ python create_function_chat.py "Create function to search on arxiv via api" "sea
 
 -----
 
-python create_function_chat.py "call create_function with description='search connected usb devices via lsusb'" "call search usb devices" "/exit"
+python create_function_chat.py "call create_function with name='search_usb_devices' description='search connected usb devices via lsusb'" "call search usb devices" "/exit"
 
 ![search usb devices](https://github.com/neuroidss/create_function_chat/blob/main/Screenshot%20from%202024-08-02%2009-25-14.png)
 
