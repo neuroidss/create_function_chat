@@ -1,6 +1,6 @@
 # create_function_chat
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neuroidss/create_function_chat/blob/main/create_function_chat.ipynb)]
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neuroidss/create_function_chat/blob/main/create_function_chat.ipynb)
 
 -----
 
