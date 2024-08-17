@@ -36,8 +36,8 @@ use_cache_global = False
 temperature_global = 0.0
 seed_global = 0
 
-#debug = True
-debug = False
+debug = True
+#debug = False
 
 #num_ctx_global = 2048
 #num_ctx_global = 4096
@@ -230,18 +230,23 @@ def create_function(**data) -> str:
       created_function = '\n'.join(created_function_cut)
  
 #      eval(created_function, globals())
-      exec(created_function, globals())
+#      exec(created_function, globals())
+      try:
+        exec(created_function, globals())
 #      global tools_global
-      tools_global.append(
-       {
-        'type': 'function',
-        'function': created_function_parameters_json,
-       })
-  global created_functions_global
+        tools_global.append(
+         {
+          'type': 'function',
+          'function': created_function_parameters_json,
+         })
+        global created_functions_global
 #  created_functions_global.append(created_function)
-  created_functions_global.append(created_function)
+        created_functions_global.append(created_function)
+      except Exception as e:
+        return f"Failure: {str(e)}"
   
-  return created_function
+  return "Success"
+#  return created_function
 
 
 #async def run(model: str, message: str):
