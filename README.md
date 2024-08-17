@@ -4,6 +4,12 @@
 
 -----
 
+python create_function_chat.py "call Create function with description='read timeflux yaml_file, output content as json string without whitespaces' name='read_timeflux_yaml' use_cache=true" "call Create function with description='parse response_json string content using json library, and write as timeflux json_file as json with indents' name='write_timeflux_json' use_cache=true" "call Create function with description='in venv path as parameter start bin/python -m timeflux json_file, and use Popen and stdout.readline to stream its output to console' name='start_timeflux_json' use_cache=true" "read timeflux examples/timeflux_brainflow_freeeeg32_beta_ttyUSB0_cut2.yaml" "write response_json content as timeflux examples/timeflux_brainflow_freeeeg32_beta_ttyUSB0_cut2_test.json, check correct number of brackets" "in venv_path='venv' start timeflux examples/timeflux_brainflow_freeeeg32_beta_ttyUSB0_cut2_test.json"
+
+![yaml to json to timeflux](https://github.com/neuroidss/create_function_chat/blob/main/Screenshot%20from%202024-08-17%2019-39-46.png)
+
+-----
+
 python create_function_chat.py "call Create function with description 'import ollama; client=ollama.Client(); client.chat(model=model, messages=messages,); return response as json string'" "call Create function with description 'create new directory provided as parameter and in this directory overwrite new index.html file with content provided as parameter'" "call ollama chat model='mistral-nemo:12b-instruct-2407-q6_K', 'Create Snake game in HTML, CSS, JS, in single file.'" "call write new index.html file with content from html block of llm response in new directory './Snake'"
 
 python create_function_chat.py "call Create function with description 'Starts a http.server from the specified directory and port, Access-Control-Allow-Origin: *'" "start http server from ./ 8080"
