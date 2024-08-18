@@ -44,15 +44,17 @@ debug = True
 num_ctx_global = 8192
 
 messages_global = []
-chat_save = True
-#chat_save = False
-chat_load = True
-#chat_load = False
+chat = True
+#chat = False
 
-#chat_save_in_create_function = True
-chat_save_in_create_function = False
-#chat_load_in_create_function = True
-chat_load_in_create_function = False
+chat_tools = True
+#chat_tools = False
+
+#chat_in_create_function = True
+chat_create_function = False
+
+#chat_in_create_function = True
+chat_in_create_function = False
 
 create_function_cache = True
 #create_function_cache = False
@@ -82,7 +84,7 @@ def create_function(**data) -> str:
   global model_global
   global messages_global
   messages = []
-  if chat_load_in_create_function:
+  if chat_in_create_function:
     messages = messages_global
   client = client_global
   model = model_global
@@ -116,7 +118,7 @@ def create_function(**data) -> str:
   global num_ctx_global
   global create_function_responses_cache_global
   response = None
-  if use_cache and (temperature == 0) and (not chat_load_in_create_function):
+  if use_cache and (temperature == 0) and (not chat_in_create_function):
 #    import json
     def read_create_function_responses_cache_global_from_json():
       try:
@@ -153,7 +155,7 @@ def create_function(**data) -> str:
       options=options,
     )
     create_function_responses_cache_global.append({'cached_message':messages[0], 'cached_response':response})
-  if use_cache and (temperature == 0) and (not chat_load_in_create_function):
+  if use_cache and (temperature == 0) and (not chat_in_create_function):
 #    import json
     def write_create_function_responses_cache_global_json():
       try:
@@ -169,7 +171,7 @@ def create_function(**data) -> str:
   # Add the model's response to the conversation history
   messages.append(response['message'])
 #  messages_global.append(response['message'])
-  if chat_save_in_create_function:
+  if chat_in_create_function:
     messages_global = messages
   response_message = response['message']
   if debug:
@@ -255,8 +257,8 @@ def run(model: str, message: str):
   global model_global
   global messages_global
   messages = []
-  if chat_load:
-    messages = messages_global
+  if chat:
+    messages = messages_global.copy()
   model_global = model
 #  client = ollama.AsyncClient()
   client = ollama.Client()
@@ -286,8 +288,13 @@ def run(model: str, message: str):
   # Add the model's response to the conversation history
 #  messages_global.append(response['message'])
   messages.append(response['message'])
-  if chat_save:
-    messages_global = messages
+  create_function_call = False
+  if response['message'].get('tool_calls'):
+    for tool in response['message']['tool_calls']:
+      if tool['function']['name']=='create_function':
+        create_function_call = True
+  if chat and ((not create_function_call) or (create_function_call and chat_create_function)):
+    messages_global = messages.copy()
 
   if debug:
     print("response['message']:", response['message'])
@@ -303,6 +310,7 @@ def run(model: str, message: str):
       print(response['message']['content'])
       return
 
+  messages_no_tools = messages.copy()
   # Process function calls made by the model
   if response['message'].get('tool_calls'):
 #    available_functions = {
@@ -326,8 +334,8 @@ def run(model: str, message: str):
 
       # Add function response to the conversation
 #      messages_global.append({'role': 'tool','content': function_response,})
-      if chat_load:
-        messages = messages_global
+      if chat and ((not create_function_call) or (create_function_call and chat_create_function)):
+        messages = messages_global.copy()
       messages.append({'role': 'tool','content': function_response,})
 
 #  if tool['function']['name'] == 'add_two_numbers':
@@ -338,8 +346,14 @@ def run(model: str, message: str):
 #  final_response = client.chat(model=model, messages=messages_global)
   final_response = client.chat(model=model, messages=messages)
   print(final_response['message']['content'])
-  if chat_save:
-    messages_global = messages
+  messages.append(final_response['message'])
+  messages_no_tools.append(final_response['message'])
+  if chat and ((not create_function_call) or (create_function_call and chat_create_function)):
+    if chat_tools:
+      messages_global = messages.copy()
+    else:
+      messages_global = messages_no_tools.copy()
+#  print('messages_global:', messages_global)
   
 #  print('running created function:')
 #  await print_hello_world()
