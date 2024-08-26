@@ -41,7 +41,8 @@ debug = True
 
 #num_ctx_global = 2048
 #num_ctx_global = 4096
-num_ctx_global = 8192
+#num_ctx_global = 8192
+num_ctx_global = 16384
 
 messages_global = []
 chat = True
