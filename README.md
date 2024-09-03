@@ -5,6 +5,23 @@
 -----
 ```
 python create_function_chat.py \
+"call Create function with description=\"with setup_string as parameter do following, import json; import skip; setup = json.loads(setup_string);  sch=skip.Schematic(setup['schematic_in']); for symbol in setup['symbols']:;    sch_symbol=sch.symbol.reference_matches(symbol['symbol_to_clone'])[0].clone();    sch_symbol.setAllReferences(symbol['reference']);    sch_symbol.move([sch_symbol.at.value[0]+symbol['clone_move'][0], sch_symbol.at.value[1]+symbol['clone_move'][1]], sch_symbol.at.value[2]+symbol['clone_move'][2]); sch_symbol.property.Footprint.setValue(symbol['footprint']); for label_count, label in enumerate(symbol['labels']):;    sch_label=sch.label.new();    sch_label.value=label;    sch_label.move(sch_symbol.pin[symbol['pin_prefix']+str(label_count+1)].location.value); sch.write(setup['schematic_out'])\" name='create_symbols_from_json_string' use_cache=true" \
+"call Create function with description='load json from json_file_name, and then output as json string without whitespaces' name='read_json_file' use_cache=true" \
+'call read_json_file with json_file_name="09.json" as json with minimum indents, not cut json content' \
+'call create_symbols_from_json_string with response json content as setup_string json string with single space indent, double check that you use correct number and order of brackets in json' \
+"call Create function with description=\"with kicad_sch_filename, net_filename, kicad_pcb_filename as parameters do in shell following, 'kicad-cli sch export netlist kicad_sch_filename --output net_filename', set environment variable KICAD7_FOOTPRINT_DIR=/usr/share/kicad/footprints/, 'kinet2pcb -i net_filename --output kicad_pcb_filename'\" name='kicad_sch_to_net_to_pcb' use_cache=true" \
+"call kicad_sch_to_net_to_pcb with kicad_sch_filename=09_out/09_out.kicad_sch, net_filename=09_out/09_out.net, kicad_pcb_filename=09_out/09_out.kicad_pcb"
+```
+![made schematics and added components to board in kicad](https://github.com/neuroidss/create_function_chat/blob/main/Screenshots/Screenshot%20from%202024-09-03%2010-36-57.png)
+
+```
+from create_function_kicad import *; model='mistral-nemo:12b-instruct-2407-q6_K'; message="call Create function with description=\"with setup_string as parameter do following, import json; setup = json.loads(setup_string); import sys; sys.path.append('git/kicad-python/'); from kicad.pcbnew.board import Board; import pcbnew; pcb=Board.from_editor(); for symbol in setup['symbols']:;    footprint=pcb.footprints[symbol['reference']];  footprint.x=symbol['footprint_move'][0];  footprint.y=symbol['footprint_move'][1];  footprint.rotation = symbol['footprint_move'][2]; for pcb_edge_cut in setup['pcb_edge_cuts']:    if 'add_circle' in pcb_edge_cut:         pcb.add_circle((pcb_edge_cut['add_circle'][0][0],pcb_edge_cut['add_circle'][0][1]),pcb_edge_cut['add_circle'][1],'Edge.Cuts');  for ref in setup['remove_refs']:    pcb.remove(pcb.footprints[ref]); pcbnew.Refresh(); pcb.save(); for plugin in setup['KICAD_PLUGINS']:    if plugin=='app_freerouting_kicad-plugin':        pcbnew.KICAD_PLUGINS[plugin]['ModuleName'].plugin.FreeroutingPlugin().Run(); else:        pcbnew.KICAD_PLUGINS[plugin]['ModuleName'].plugin.Run();\" name='setup_pcb_from_string' use_cache=true"; run(model, message); message="call Create function with description='load json from json_file_name, and then output as json string without whitespaces' name='read_json_file' use_cache=true"; run(model, message); message='call read_json_file with json_file_name="09_out.json" as json with minimum indents, not cut json content'; run(model, message); message='call setup_pcb_from_string with response json content as params_string json string with single space indent, double check that you use correct number and order of brackets in json'; run(model, message);
+```
+![placed components, routed board in kicad and sent to PCBWay](https://github.com/neuroidss/create_function_chat/blob/main/Screenshots/Screenshot%20from%202024-09-03%2010-42-06.png)
+
+-----
+```
+python create_function_chat.py \
 "call Create function with description='read timeflux yaml_file, output content as json string without whitespaces' name='read_timeflux_yaml_as_json' use_cache=true" \
 "call Create function with description='parse response_json string content, and write as timeflux json_file as json with single indent' name='write_timeflux_json' use_cache=true" \
 "call Create function with description='in venv path as parameter start bin/python -m timeflux json_file, and use Popen and stdout.readline to stream its output to console' name='start_timeflux_json' use_cache=true" \
