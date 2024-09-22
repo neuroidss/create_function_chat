@@ -92,25 +92,26 @@ def create_function(**data) -> str:
 #  messages = [{'role': 'user', 'content': 'Write python async function '+name+' which makes: "'+description+'", and next write in json format which parameters was used to call that function if any. '}]
 
   function =  {
-          'name': 'function_name',
+          'name': 'place function name here',
           'description': 'function description',
           'parameters': {
             'type': 'object',
             'properties': {
-              'first_parameter_name': {
+              'first parameter name': {
                 'type': 'string',
                 'description': 'first parameter description',
               },
-              'second_parameter_name': {
+              'second parameter name': {
                 'type': 'string',
                 'description': 'second parameter description',
               },
             },
-            'required': ['first_parameter_name', 'second_parameter_name'],
+            'required': ['first parameter name', 'second parameter name'],
           },
       },
 
-  messages.append({'role': 'user', 'content': 'Write python function '+name+' which makes "'+description+'" and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+json.dumps(function)+'"'})
+  messages.append({'role': 'user', 'content': 'Write two code blocks one python and another json. In python code block write single python function named "'+name+'" which makes "'+description+'" and returns string type, no need comments, in that python code block should be only definition of that function. \n In json code block write in json format which parameters was used to call that function if any, using example "'+json.dumps(function)+'"'})
+#  messages.append({'role': 'user', 'content': 'Write python function '+name+' which makes "'+description+'" and returns string type, \n then after end of python format block, in separate json format block show how to write which parameters was used to call that function if any, using example "'+json.dumps(function)+'"'})
   
   # First API call: Send the query and function description to the model
   global tools_global
@@ -215,7 +216,11 @@ def create_function(**data) -> str:
       created_function_cut = []
       created_function_def_started = False
       for created_function_split in created_function.split("\n"):
+#          print('created_function_def_started:',created_function_def_started)
+#          print('split:',created_function_split)
           if created_function_split[0:7] == 'import ':
+              created_function_cut.append(created_function_split)
+          elif created_function_split[0:15] == 'sys.path.append':
               created_function_cut.append(created_function_split)
           elif created_function_split[0:5] == 'from ':
               created_function_cut.append(created_function_split)
@@ -305,7 +310,7 @@ def run(model: str, message: str):
 #      print("The model uses modified function call, fixed. Its response was:")
 #      print(response['message']['content'])
 #      response['message']['content'] = ''
-#      response['message']['tool_calls'] = {'function':json.loads(response['message']['content'][13:])}
+#      response['message']['tool_calls'] = [{'function':json.loads(response['message']['content'][13:])}]
 #    else:
       print("The model didn't use the function. Its response was:")
       print(response['message']['content'])
@@ -385,10 +390,25 @@ while True:
 #        asyncio.run(run('llama3.1:8b-instruct-q8_0', message))
 #        asyncio.run(run('mistral-nemo', message))
 #        asyncio.run(run('mistral-nemo:12b-instruct-2407-q6_K', message))
-        run('mistral-nemo:12b-instruct-2407-q6_K', message)
+
+#        run('mistral-nemo:12b-instruct-2407-q6_K', message)
+#        run('llama3.1:8b-instruct-q8_0', message)
+#        run('qwen2:7b-instruct-q8_0', message)
+        run('qwen2.5:7b-instruct-q8_0', message)
+#        run('qwen2.5-coder:7b-instruct-q8_0', message)
+
+#        run('nemotron-mini:4b-instruct-fp16', message)
+#        run('nemotron-mini:4b-instruct-q8_0', message)
+
+#        run('qwen2.5:14b-instruct-q6_K', message)
+#        run('qwen2.5:14b-instruct-q5_K_M', message)
+#        run('qwen2.5:14b', message)
+#        run('qwen2.5:7b-instruct-q6_K', message)
+#        run('qwen2.5:7b-instruct-q5_K_M', message)
+
+#        run('qwen2', message)
 #        run('mistral-nemo', message)
 #        run('llama3.1', message)
-#        run('llama3.1:8b-instruct-q8_0', message)
 #        run('mistral', message)
 #        run('llama3-groq-tool-use', message)
 
