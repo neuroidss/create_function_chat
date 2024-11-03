@@ -42,7 +42,8 @@ debug = True
 #num_ctx_global = 2048
 #num_ctx_global = 4096
 #num_ctx_global = 8192
-num_ctx_global = 16384
+#num_ctx_global = 16384
+num_ctx_global = 32768
 
 messages_global = []
 chat = True
@@ -364,51 +365,55 @@ def run(model: str, message: str):
 #  print('running created function:')
 #  await print_hello_world()
 
-# Run the async function
-#asyncio.run(run('llama3.1'))
+if __name__ == '__main__':
+    # Running as a script
+    
+    # Run the async function
+    #asyncio.run(run('llama3.1'))
 
-import sys
-if debug:
-  print ('argument list:', sys.argv)
-#for argument_message in sys.argv[1:]:
-#    print(">>> ", argument_message)
-#    asyncio.run(run('mistral-nemo', argument_message))
+    import sys
+    if debug:
+      print ('argument list:', sys.argv)
+    #for argument_message in sys.argv[1:]:
+    #    print(">>> ", argument_message)
+    #    asyncio.run(run('mistral-nemo', argument_message))
 
-argument_count = 1
-while True:
-    if argument_count < len(sys.argv):
-        message = sys.argv[argument_count]
-        print(">>>", message)
-        argument_count = argument_count + 1
-    else:
-        message = input(">>> ")
+    argument_count = 1
+    while True:
+        if argument_count < len(sys.argv):
+            message = sys.argv[argument_count]
+            print(">>>", message)
+            argument_count = argument_count + 1
+        else:
+            message = input(">>> ")
 
-    if message == "/exit":
-        break
-    elif len(message) > 0:
-#        asyncio.run(run('llama3.1', message))
-#        asyncio.run(run('llama3.1:8b-instruct-q8_0', message))
-#        asyncio.run(run('mistral-nemo', message))
-#        asyncio.run(run('mistral-nemo:12b-instruct-2407-q6_K', message))
+        if message == "/exit":
+            break
+        elif len(message) > 0:
+    #        asyncio.run(run('llama3.1', message))
+    #        asyncio.run(run('llama3.1:8b-instruct-q8_0', message))
+    #        asyncio.run(run('mistral-nemo', message))
+    #        asyncio.run(run('mistral-nemo:12b-instruct-2407-q6_K', message))
 
-#        run('mistral-nemo:12b-instruct-2407-q6_K', message)
-#        run('llama3.1:8b-instruct-q8_0', message)
-#        run('qwen2:7b-instruct-q8_0', message)
-        run('qwen2.5:7b-instruct-q8_0', message)
-#        run('qwen2.5-coder:7b-instruct-q8_0', message)
+    #        run('mistral-nemo:12b-instruct-2407-q6_K', message)
+    #        run('llama3.1:8b-instruct-q8_0', message)
+    #        run('qwen2:7b-instruct-q8_0', message)
+    #        run('granite3-dense:8b-instruct-q8_0', message)
+            run('qwen2.5:7b-instruct-q8_0', message)
+    #        run('qwen2.5-coder:7b-instruct-q8_0', message)
 
-#        run('nemotron-mini:4b-instruct-fp16', message)
-#        run('nemotron-mini:4b-instruct-q8_0', message)
+    #        run('nemotron-mini:4b-instruct-fp16', message)
+    #        run('nemotron-mini:4b-instruct-q8_0', message)
 
-#        run('qwen2.5:14b-instruct-q6_K', message)
-#        run('qwen2.5:14b-instruct-q5_K_M', message)
-#        run('qwen2.5:14b', message)
-#        run('qwen2.5:7b-instruct-q6_K', message)
-#        run('qwen2.5:7b-instruct-q5_K_M', message)
+    #        run('qwen2.5:14b-instruct-q6_K', message)
+    #        run('qwen2.5:14b-instruct-q5_K_M', message)
+    #        run('qwen2.5:14b', message)
+    #        run('qwen2.5:7b-instruct-q6_K', message)
+    #        run('qwen2.5:7b-instruct-q5_K_M', message)
 
-#        run('qwen2', message)
-#        run('mistral-nemo', message)
-#        run('llama3.1', message)
-#        run('mistral', message)
-#        run('llama3-groq-tool-use', message)
+    #        run('qwen2', message)
+    #        run('mistral-nemo', message)
+    #        run('llama3.1', message)
+    #        run('mistral', message)
+    #        run('llama3-groq-tool-use', message)
 
